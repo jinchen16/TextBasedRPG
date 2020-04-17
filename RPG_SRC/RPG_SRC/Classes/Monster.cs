@@ -6,48 +6,39 @@ using System.Threading.Tasks;
 
 namespace RPG_SRC.Classes
 {
-    class Monster
+    public class Monster : LivingEntity
     {
-        private string _name;
-        private int _hp;
-        private int _ap;
+        private string name;
+        private int hp;
+        private int ap;
+        private Player target;
 
-        public string Name { get => _name; set => _name = value; }
-        public int HP { get => _hp; set => _hp = value; }
-        public int AP { get => _ap; set => _ap = value; }
+        public int AP { get => ap; set => ap = value; }
 
-        public Monster(string name, int hp, int ap)
+        public Monster(string name, int hp, int ap) : base(name, hp)
         {
-            this.Name = name;
-            this.HP = hp;
             this.AP = ap;
         }
 
-        public Monster()
+        public Monster() : base("None", 0)
         {
-            this.Name = "None";
-            this.HP = 0;
             this.AP = 0;
         }
 
-        public bool IsDead()
+        public override void ReceiveDamage(int damage)
         {
-            if (this.HP <= 0)
-                return true;
-            return false;
+            this.HP -= damage;
         }
 
-        public void ReceiveDamage(Player target)
+        public override void Attack()
         {
-            this.HP -= target.MyWeapon.Damage();
-        }
-
-        public void Attack(Player target)
-        {
-            target.ReceiveDamage(this._ap);
-            if (target.IsDead())
+            if (target != null)
             {
-                // End game here
+                target.ReceiveDamage(this.ap);
+                if (target.IsDead())
+                {
+                    // End game here
+                }
             }
         }
     }

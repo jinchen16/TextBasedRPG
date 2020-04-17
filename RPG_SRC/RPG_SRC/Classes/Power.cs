@@ -13,18 +13,21 @@ namespace RPG_SRC.Classes
         PROTECT
     }
 
-    class Power
+    public class Power
     {
-        private string _name;
-        private Power_Type _type;
+        private string name;
+        private Power_Type type;
+        private int minXP;
 
-        public string Name { get => _name; set => _name = value; }
-        public Power_Type Type { get => _type; set => _type = value; }
+        public string Name { get => name; set => name = value; }
+        public Power_Type Type { get => type; set => type = value; }
+        public int MinXP { get => minXP; set => minXP = value; }
 
-        public Power(string name, Power_Type type)
+        public Power(string name, Power_Type type, int minXP)
         {
             this.Name = name;
             this.Type = type;
+            this.MinXP = minXP;
         }
     }
 }

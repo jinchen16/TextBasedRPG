@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Dice.cs" />
+    <Compile Include="Classes\LivingEntity.cs" />
+    <Compile Include="Classes\Monster.cs" />
+    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Power.cs" />
+    <Compile Include="Classes\Weapon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

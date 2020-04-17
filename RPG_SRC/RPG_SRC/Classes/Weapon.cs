@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace RPG_SRC.Classes
 {
-    class Weapon
+    public class Weapon
     {
-        private string _name;
-        private int _minDamage;
-        private int _maxDamage;
+        private string name;
+        private int minDamage;
+        private int maxDamage;
 
         private Random rand = new Random();
 
-        public string Name { get => _name; set => _name = value; }
-        public int MinDamage { get => _minDamage; set => _minDamage = value; }
-        public int MaxDamage { get => _maxDamage; set => _maxDamage = value; }
+        public string Name { get => name; set => name = value; }
+        public int MinDamage { get => minDamage; set => minDamage = value; }
+        public int MaxDamage { get => maxDamage; set => maxDamage = value; }
 
         // Constructor
         public Weapon()
@@ -36,7 +36,7 @@ namespace RPG_SRC.Classes
         // The damage done would be a random value between the min and max
         public int Damage()
         {
-            return rand.Next(_minDamage, _maxDamage + 1);
+            return rand.Next(minDamage, maxDamage + 1);
         }
     }
 }

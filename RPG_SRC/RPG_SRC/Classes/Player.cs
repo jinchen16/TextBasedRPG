@@ -6,52 +6,33 @@ using System.Threading.Tasks;
 
 namespace RPG_SRC.Classes
 {
-    class Player
+    public class Player : LivingEntity
     {
-        private string _name;
-        private int _hp; // Health points
-        private int _hpMax; // Max health points
-        private int _xp; // Experience points
-        private int _gp; // Gold points
-        private bool _isProtected;
-        private Monster _enemy;
-        private List<Power> _myPowers;
-        private Weapon _myWeapon;
+        private int hpMax; // Max health points
+        private int xp; // Experience points
+        private int gp; // Gold points
+        private bool isProtected;
+        private Monster enemy;
+        private List<Power> myPowers;
+        private Weapon myWeapon;
 
-        public string Name { get => _name; set => _name = value; }
-        public int HP { get => _hp; set => _hp = value; }
-        public int HPMax { get => _hpMax; set => _hpMax = value; }
-        public int XP { get => _xp; set => _xp = value; }
-        public int GP { get => _gp; set => _gp = value; }
-        public bool IsProtected { get => _isProtected; set => _isProtected = value; }
-        public Monster Enemy { get => _enemy; set => _enemy = value; }
-        public Weapon MyWeapon { get => _myWeapon; set => _myWeapon = value; }
+        public int HPMax { get => hpMax; set => hpMax = value; }
+        public int XP { get => xp; set => xp = value; }
+        public int GP { get => gp; set => gp = value; }
+        public bool IsProtected { get => isProtected; set => isProtected = value; }
+        public Monster Enemy { get => enemy; set => enemy = value; }
+        public List<Power> MyPowers { get => myPowers; set => myPowers = value; }
+        public Weapon MyWeapon { get => myWeapon; set => myWeapon = value; }
 
-        public Player()
-        {
-            _myPowers = new List<Power>();
-            this.Name = "None";
-            this.HPMax = 10;
-            this.HP = this.HPMax;
-            this.XP = 0;
-            this.GP = 0;
+        public Player(string name, int hp, int xp, int gp) : base(name, hp)
+        {            
+            this.HPMax = hp;
+            this.XP = xp;
+            this.GP = gp;
             this.IsProtected = false;
             this.Enemy = null;
-            this.MyWeapon = null;
-        }
-
-        public Player(int hp, int hpMax, int xp)
-        {
-            this.HP = hp;
-            this.HPMax = hpMax;
-            this.XP = xp;
-        }
-
-        public bool IsDead()
-        {
-            if (this.HP <= 0)
-                return true;
-            return false;
+            this.MyWeapon= null;
+            this.MyPowers = new List<Power>();
         }
 
         public void Heal()
@@ -67,24 +48,35 @@ namespace RPG_SRC.Classes
 
         public void AddPower(Power p)
         {
-            _myPowers.Add(p);
+            myPowers.Add(p);
         }
 
         public bool Contains(Power_Type type)
         {
-            for (int i = 0; i < _myPowers.Count; i++)
+            for (int i = 0; i < myPowers.Count; i++)
             {
-                if (_myPowers[i].Type == type)
+                if (myPowers[i].Type == type)
                     return true;
             }
             return false;
         }
 
+        public Power GetPower(Power_Type type)
+        {
+            for (int i = 0; i < myPowers.Count; i++)
+            {
+                if (myPowers[i].Type == type)
+                    return myPowers[i];
+            }
+            return null;
+        }
+
         public void ApplyPower(Power_Type type)
         {
-            if (Contains(type))
+            Power power = GetPower(type);
+            if (power != null)
             {
-                switch (type)
+                switch (power.Type)
                 {
                     case Power_Type.HEALING:
                         Heal();
@@ -95,13 +87,11 @@ namespace RPG_SRC.Classes
                     case Power_Type.PROTECT:
                         IsProtected = true;
                         break;
-                    default:
-                        break;
                 }
             }
         }
 
-        public void ReceiveDamage(int ap)
+        public override void ReceiveDamage(int ap)
         {
             if (IsProtected)
                 ap /= 2;
@@ -110,9 +100,20 @@ namespace RPG_SRC.Classes
 
         public void UpdateWeapon(Weapon weapon)
         {
-            if (_myWeapon.MaxDamage < weapon.MaxDamage)
+            if (MyWeapon.MaxDamage < weapon.MaxDamage)
             {
-                _myWeapon = weapon;
+                MyWeapon = weapon;
+            }
+        }
+
+        public override void Attack()
+        {
+            if (enemy != null)
+            {
+                int minDamage = MyWeapon.MinDamage;
+                int maxDamage = MyWeapon.MaxDamage;
+                int damageDone = Dice.GetInstance().Next(minDamage, maxDamage + 1);
+                enemy.ReceiveDamage(damageDone);
             }
         }
     }
