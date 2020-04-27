@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RPG_SRC.Classes
 {
@@ -24,14 +21,18 @@ namespace RPG_SRC.Classes
         public List<Power> MyPowers { get => myPowers; set => myPowers = value; }
         public Weapon MyWeapon { get => myWeapon; set => myWeapon = value; }
 
+        public Player() : this("None", 0, 0, 0) { }
+
+        public Player(string name, int hp): this(name, hp, 0, 0) { }
+
         public Player(string name, int hp, int xp, int gp) : base(name, hp)
-        {            
+        {
             this.HPMax = hp;
             this.XP = xp;
             this.GP = gp;
             this.IsProtected = false;
             this.Enemy = null;
-            this.MyWeapon= null;
+            this.MyWeapon = new Weapon("Wood Stick", 5, 15, 0);
             this.MyPowers = new List<Power>();
         }
 
@@ -43,49 +44,69 @@ namespace RPG_SRC.Classes
         public void Hide()
         {
             Console.WriteLine("You are hidden! You run away!");
+            this.Enemy = null;
             // Display message and call Explore
+        }
+
+        public void Sprinkle()
+        {
+            // Make the enemy falls sleep            
+            if (Enemy is Dragon)
+            {
+                Dragon dragon = Enemy as Dragon;
+                this.GP += dragon.RGP;
+                Hide();
+            }
+            else
+            {
+                Hide();
+            }
         }
 
         public void AddPower(Power p)
         {
-            myPowers.Add(p);
+            MyPowers.Add(p);
         }
 
-        public bool Contains(Power_Type type)
+        public bool Contains(PowerType type)
         {
-            for (int i = 0; i < myPowers.Count; i++)
+            for (int i = 0; i < MyPowers.Count; i++)
             {
-                if (myPowers[i].Type == type)
+                if (MyPowers[i].Type == type)
                     return true;
             }
             return false;
         }
 
-        public Power GetPower(Power_Type type)
+        public Power GetPower(PowerType type)
         {
-            for (int i = 0; i < myPowers.Count; i++)
+            for (int i = 0; i < MyPowers.Count; i++)
             {
-                if (myPowers[i].Type == type)
-                    return myPowers[i];
+                if (MyPowers[i].Type == type)
+                    return MyPowers[i];
             }
             return null;
         }
 
-        public void ApplyPower(Power_Type type)
+        public void ApplyPower(PowerType type)
         {
             Power power = GetPower(type);
-            if (power != null)
+            if (power != null && this.XP >= power.MinXP)
             {
+                MyPowers.Remove(power);
                 switch (power.Type)
                 {
-                    case Power_Type.HEALING:
+                    case PowerType.HEALING:
                         Heal();
                         break;
-                    case Power_Type.INVISIBLE:
+                    case PowerType.INVISIBLE:
                         Hide();
                         break;
-                    case Power_Type.PROTECT:
+                    case PowerType.PROTECT:
                         IsProtected = true;
+                        break;
+                    case PowerType.SLEEPY:
+                        Sprinkle();
                         break;
                 }
             }
@@ -108,13 +129,43 @@ namespace RPG_SRC.Classes
 
         public override void Attack()
         {
-            if (enemy != null)
+            if (Enemy != null)
             {
                 int minDamage = MyWeapon.MinDamage;
                 int maxDamage = MyWeapon.MaxDamage;
                 int damageDone = Dice.GetInstance().Next(minDamage, maxDamage + 1);
-                enemy.ReceiveDamage(damageDone);
+                Enemy.ReceiveDamage(damageDone);
+
+                if (Enemy.IsDead())
+                {
+                    this.XP += Enemy.RXP;
+                    if (Enemy is Dragon)
+                    {
+                        this.GP += ((Dragon)Enemy).RGP;
+                    }
+                }
             }
+        }
+
+        public void BuyItem(Item item)
+        {
+            if (this.GP >= item.Price)
+            {
+                this.GP -= item.Price;
+                if (item is Weapon)
+                {
+                    UpdateWeapon(item as Weapon);
+                }
+                else if (item is Power)
+                {
+                    MyPowers.Add(item as Power);
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.Name + " HP: " + this.HP + "/" + this.HPMax + " XP: " + this.XP + " GP: " + this.GP;
         }
     }
 }

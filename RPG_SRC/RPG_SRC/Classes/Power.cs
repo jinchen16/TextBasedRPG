@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RPG_SRC.Classes
+﻿namespace RPG_SRC.Classes
 {
-    public enum Power_Type
+    public enum PowerType
     {
         HEALING,
         INVISIBLE,
-        PROTECT
+        PROTECT,
+        SLEEPY,
+        NONE
     }
 
-    public class Power
+    public class Power : Item
     {
-        private string name;
-        private Power_Type type;
-        private int minXP;
+        private PowerType type;
+        private int minXP;        
 
-        public string Name { get => name; set => name = value; }
-        public Power_Type Type { get => type; set => type = value; }
+        public PowerType Type { get => type; set => type = value; }
         public int MinXP { get => minXP; set => minXP = value; }
 
-        public Power(string name, Power_Type type, int minXP)
+        public Power() : this("None", PowerType.NONE, 0, 0) { }
+
+        public Power(string name, PowerType type, int minXP, int price)
         {
             this.Name = name;
             this.Type = type;
             this.MinXP = minXP;
+            this.Price = price;
         }
     }
 }

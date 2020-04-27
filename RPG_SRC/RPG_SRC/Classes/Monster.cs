@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RPG_SRC.Classes
+﻿namespace RPG_SRC.Classes
 {
     public class Monster : LivingEntity
     {
-        private string name;
-        private int hp;
         private int ap;
+        private int rxp;
         private Player target;
 
         public int AP { get => ap; set => ap = value; }
+        public int RXP { get => rxp; set => rxp = value; }
+        public Player Target { get => target; set => target = value; }
 
-        public Monster(string name, int hp, int ap) : base(name, hp)
+        public Monster(string name, int hp, int ap, int rxp) : base(name, hp)
         {
             this.AP = ap;
+            this.RXP = rxp;
         }
 
-        public Monster() : base("None", 0)
-        {
-            this.AP = 0;
-        }
+        public Monster() : this("None", 0, 0, 0) { }
 
         public override void ReceiveDamage(int damage)
         {
@@ -32,12 +25,13 @@ namespace RPG_SRC.Classes
 
         public override void Attack()
         {
-            if (target != null)
+            if (Target != null)
             {
-                target.ReceiveDamage(this.ap);
-                if (target.IsDead())
+                int damage = Dice.GetInstance().Next(0, this.AP + 1);
+                Target.ReceiveDamage(damage);
+                if (Target.IsDead())
                 {
-                    // End game here
+                    GameManager.GameOver();
                 }
             }
         }

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPlayer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Player>
+    <Name>Jin</Name>
+    <HP>81</HP>
+    <HPMax>100</HPMax>
+    <XP>7</XP>
+    <GP>515</GP>
+    <IsProtected>true</IsProtected>
+    <MyPowers>
+      <Power>
+        <Name>Sleepy Dust</Name>
+        <Price>600</Price>
+        <Type>SLEEPY</Type>
+        <MinXP>6</MinXP>
+      </Power>
+      <Power>
+        <Name>Magic Cape</Name>
+        <Price>300</Price>
+        <Type>INVISIBLE</Type>
+        <MinXP>3</MinXP>
+      </Power>
+      <Power>
+        <Name>Magic Cape</Name>
+        <Price>300</Price>
+        <Type>INVISIBLE</Type>
+        <MinXP>3</MinXP>
+      </Power>
+      <Power>
+        <Name>Wood Shield</Name>
+        <Price>100</Price>
+        <Type>PROTECT</Type>
+        <MinXP>1</MinXP>
+      </Power>
+      <Power>
+        <Name>Sleepy Dust</Name>
+        <Price>600</Price>
+        <Type>SLEEPY</Type>
+        <MinXP>6</MinXP>
+      </Power>
+      <Power>
+        <Name>Wood Shield</Name>
+        <Price>100</Price>
+        <Type>PROTECT</Type>
+        <MinXP>1</MinXP>
+      </Power>
+    </MyPowers>
+    <MyWeapon>
+      <Name>Magic Sword</Name>
+      <Price>500</Price>
+      <MinDamage>50</MinDamage>
+      <MaxDamage>60</MaxDamage>
+    </MyWeapon>
+  </Player>
+</ArrayOfPlayer>

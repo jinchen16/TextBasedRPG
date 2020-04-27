@@ -43,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DataXML.cs" />
     <Compile Include="Classes\Dice.cs" />
+    <Compile Include="Classes\Dragon.cs" />
+    <Compile Include="Classes\GameFactory.cs" />
+    <Compile Include="Classes\GameManager.cs" />
+    <Compile Include="Classes\ILivingEntity.cs" />
+    <Compile Include="Classes\Item.cs" />
     <Compile Include="Classes\LivingEntity.cs" />
+    <Compile Include="Classes\Message.cs" />
     <Compile Include="Classes\Monster.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\Power.cs" />
@@ -54,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
