@@ -23,7 +23,7 @@ namespace RPG_SRC.Classes
 
         public Player() : this("None", 0, 0, 0) { }
 
-        public Player(string name, int hp): this(name, hp, 0, 0) { }
+        public Player(string name, int hp) : this(name, hp, 0, 0) { }
 
         public Player(string name, int hp, int xp, int gp) : base(name, hp)
         {
@@ -110,6 +110,14 @@ namespace RPG_SRC.Classes
                         break;
                 }
             }
+            else if (power == null)
+            {
+                Message.Warning("You don't have the " + type + " power");
+            }
+            else
+            {
+                Message.Warning("You don't have enough experience for " + type);
+            }
         }
 
         public override void ReceiveDamage(int ap)
@@ -160,6 +168,10 @@ namespace RPG_SRC.Classes
                 {
                     MyPowers.Add(item as Power);
                 }
+            }
+            else
+            {
+                Message.Warning("Not enough gold to buy " + item.Name);
             }
         }
 
