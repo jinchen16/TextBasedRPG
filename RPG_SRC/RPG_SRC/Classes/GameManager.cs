@@ -95,6 +95,7 @@ namespace RPG_SRC.Classes
             else
             {
                 Message.Danger("Your enemy is not dead!");
+                Message.Danger("Enemy has " + GameManager.CurrentPlayer.Enemy.HP + "HP left");
                 if (BattleRounds >= MaxRounds)
                 {
                     Message.Danger("You panicked and run away...");
@@ -115,7 +116,7 @@ namespace RPG_SRC.Classes
         {
             Dice dice = Dice.GetInstance();
             int random = dice.Next(0, 15);
-            Console.WriteLine("You're exploring... ");
+            Console.WriteLine("\nYou're exploring... ");
             switch (random)
             {
                 case 0:
@@ -124,6 +125,7 @@ namespace RPG_SRC.Classes
                 case 3:
                     Monster monster = GameFactory.CreateMonster();
                     Message.Danger(monster.Name + " approaches!  Prepare for battle!");
+                    Message.Danger(monster.ToString());
                     monster.Target = GameManager.CurrentPlayer;
                     GameManager.CurrentPlayer.Enemy = monster;
                     break;

@@ -124,7 +124,15 @@ namespace RPG_SRC.Classes
         {
             if (IsProtected)
                 ap /= 2;
-            this.HP -= ap;
+
+            if (ap == 0)
+            { 
+                Message.Success("Damage dodged");
+            }
+            else
+            {                
+                this.HP -= ap;
+            }            
         }
 
         public void UpdateWeapon(Weapon weapon)
